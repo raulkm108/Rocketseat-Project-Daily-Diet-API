@@ -25,3 +25,6 @@ def login():
 
     if username and password:
          user = User.query.filter_by(username=username). first()
+
+         if user and password == user.password:
+             pass
