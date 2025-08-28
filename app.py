@@ -6,7 +6,7 @@ from flask_login import LoginManager, login_user, current_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin123@127.0.0.1:3306/flask-crud'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:admin123@127.0.0.1:3307/flask-crud'
 
 login_manager = LoginManager()
 db.init_app(app)
@@ -33,3 +33,4 @@ def login():
              return jsonify({"message": "You have successfully logegd in"})
 
     return jsonify({"message": "Invalid credentials"}), 400
+
