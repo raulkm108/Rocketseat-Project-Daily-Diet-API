@@ -10,3 +10,5 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 login_manager = LoginManager()
 db.init_app(app)
 login_manager.init_app(app)
+
+login_manager.login_view = 'login'
