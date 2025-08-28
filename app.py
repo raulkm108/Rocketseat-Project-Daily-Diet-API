@@ -27,7 +27,7 @@ def login():
     if username and password:
          user = User.query.filter_by(username=username).first()
 
-         if user and password == user.password:
+         if user and user.password == password:
              login_user(user)
              print(current_user.is_authenticated)
              return jsonify({"message": "You have successfully logged in"})
