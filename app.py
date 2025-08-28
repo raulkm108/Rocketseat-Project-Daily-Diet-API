@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from database import db
 from models.user import User
-from flask_login import LoginManager
+from flask_login import LoginManager, login_user, current_user
 
 
 app = Flask(__name__)
@@ -24,7 +24,11 @@ def login():
     password = data.get("password")
 
     if username and password:
-         user = User.query.filter_by(username=username). first()
+         user = User.query.filter_by(username=username).first()
 
          if user and password == user.password:
-             pass
+             login_user(user)
+             print(current_user.is_authenticated)
+             return jsonify({"message": "You have successfully logegd in"})
+
+    return jsonify({"message": "Invalid credentials"}), 400
