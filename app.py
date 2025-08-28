@@ -30,7 +30,7 @@ def login():
          if user and password == user.password:
              login_user(user)
              print(current_user.is_authenticated)
-             return jsonify({"message": "You have successfully logegd in"})
+             return jsonify({"message": "You have successfully logged in"})
 
     return jsonify({"message": "Invalid credentials"}), 400
 
