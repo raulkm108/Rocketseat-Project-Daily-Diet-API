@@ -56,7 +56,7 @@ def create_user():
 
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            jsonify({"message": f"Username {username} already taken"})
+            return jsonify({"message": f"Username {username} already taken"}), 409
 
         user = User(username=username, password=password, role='user')
         db.session.add(user)
