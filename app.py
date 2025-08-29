@@ -53,9 +53,10 @@ def create_user():
     password = data.get("password")
 
     if username and password:
+
         pass
-    
-    return jsonify({"message": "Invalid credentials type"})
+
+    return jsonify({"message": "Invalid credentials type"}), 400
 
 
 
