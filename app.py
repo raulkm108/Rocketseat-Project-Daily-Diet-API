@@ -20,7 +20,7 @@ def load_user(user_id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    return jsonify({"message": "You need to be logged in to logout"})
+    return jsonify({"message": "You need to be logged in to perform this action"})
 
 
 @app.route("/login", methods=['POST'])
