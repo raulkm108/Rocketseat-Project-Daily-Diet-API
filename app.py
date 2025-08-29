@@ -18,6 +18,7 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(user_id)
 
+
 @app.route("/login", methods=['POST'])
 def login():
     data = request.json
@@ -34,12 +35,13 @@ def login():
 
     return jsonify({"message": "Invalid credentials"}), 400
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
 @app.route('/logout', methods=["GET"])
 @login_required
 
 def logout():
     logout_user()
     return jsonify({"message": "You have successfully logged out"})
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
