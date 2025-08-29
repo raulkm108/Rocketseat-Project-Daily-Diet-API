@@ -53,8 +53,10 @@ def create_user():
     password = data.get("password")
 
     if username and password:
-
-        pass
+        user = User(username=username, password=password, role='user')
+        db.session.add(user)
+        db.session.commit()
+        return jsonify ({"message": "User successfully registered"})
 
     return jsonify({"message": "Invalid credentials type"}), 400
 
