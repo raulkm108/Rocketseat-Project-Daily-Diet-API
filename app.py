@@ -18,6 +18,10 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(user_id)
 
+@login_manager.unauthorized_handler
+def unauthorized():
+    return jsonify({"message": "You need to be logged in to logout"})
+
 
 @app.route("/login", methods=['POST'])
 def login():
