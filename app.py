@@ -53,8 +53,8 @@ def create_user():
     password = data.get("password")
 
     if username and password:
-        
-        existing_user = User.query.filter_by(username=username). first()
+
+        existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             jsonify({"message": f"Username {username} already taken"})
 
