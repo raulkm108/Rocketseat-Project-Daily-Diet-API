@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from database import db
 from models.user import User
-from flask_login import LoginManager, login_user, current_user, logout_user
+from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 
 
 app = Flask(__name__)
@@ -38,6 +38,7 @@ if __name__ == '__main__':
     app.run(debug=True)
 
 @app.route('/logout', methods=["GET"])
+@login_required
 
 def logout():
     logout_user()
