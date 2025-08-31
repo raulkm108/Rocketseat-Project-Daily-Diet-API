@@ -69,7 +69,11 @@ def create_user():
 @login_required
 def read_user(id_user):
     user = User.query.get(id_user)
-    pass
+
+    if user:
+        return {"username:": user.username}
+    
+    return jsonify({"message": "Could not find user"}), 404
 
 
 
