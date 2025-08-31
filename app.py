@@ -65,7 +65,7 @@ def create_user():
 
     return jsonify({"message": "Invalid credentials type"}), 400
 
-@app.route('/user/<int:id_user', methods=['GET'])
+@app.route('/user/<int:id_user>', methods=['GET'])
 @login_required
 
 
