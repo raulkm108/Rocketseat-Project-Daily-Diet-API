@@ -67,6 +67,10 @@ def create_user():
 
 @app.route('/user/<int:id_user>', methods=['GET'])
 @login_required
+def read_user(id_user):
+    data = request.json
+    user = User.query.get(id_user)
+    pass
 
 
 
