@@ -82,7 +82,7 @@ def update_user(id_user):
     user = User.query.get(id_user)
 
     if id_user != current_user.id and current_user.role == 'user':
-        return jsonify({"message": "OPeration not allowed"}), 403
+        return jsonify({"message": "Operation not allowed"}), 403
     
     if user and data.get("password"):
         user.password = data.get("password")
