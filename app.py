@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from database import db
-from models.user import User
+from models.user import User, Meal
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 
 
@@ -56,7 +56,7 @@ def create_user():
 
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            return jsonify({"message": f"Username {username} already taken"}), 409
+            return jsonify({"message": f"Username {username} already taken"}), 403
 
         user = User(username=username, password=password, role='user')
         db.session.add(user)
@@ -107,6 +107,32 @@ def delete_user(id_user):
         return jsonify ({"message": f"User {deleted_username} (id:{id_user}) was successfully deleted"})
     
     return jsonify({"message": "User not found"}), 404
+
+@app.route('/createmeal/<int:id_user>', methods=['POST'])
+@login_required
+def create_meal(id_user):
+
+    user = User.query.get(id_user)
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    if id_user != current_user.id:
+        return jsonify({"message": "You can only create meals for your won user"}) , 403
+    
+    data = request.json
+    name = data.get("name")
+    description = data.get("description")
+    mealtime = data.get("mealtime")
+    indiet = data.get("indiet")
+
+    if name and indiet:
+        user.meals = Meal(name=name, description=description, mealtime=mealtime, indiet=indiet)
+        db.session.add(user.meals)
+        db.session.commit()
+        return jsonify({"message": "Meal successfully registered"})
+
+    return jsonify({"message": "The meal need at least a name and if it's in the diet"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
