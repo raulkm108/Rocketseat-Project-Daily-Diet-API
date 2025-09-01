@@ -96,14 +96,14 @@ def update_user(id_user):
 @login_required
 def delete_user(id_user):
     user = User.query.get(id_user)
-    deleted_username = user.username
-    if id_user == current_user.id and current_user.role != 'admin':
+
+    if id_user == current_user.id or current_user.role != 'admin':
         return jsonify ({"message": "Operation not allowed"})
     
     if user:
         db.session.delete(user)
         db.session.commit()
-        return jsonify ({"message": f"User {deleted_username}(id:{id_user}) was successfully deleted"})
+        return jsonify ({"message": f"User (id:{id_user}) was successfully deleted"})
     
     return jsonify({"message": "User not found"}), 404
 
