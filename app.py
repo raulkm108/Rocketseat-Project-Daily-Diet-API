@@ -126,9 +126,9 @@ def create_meal(id_user):
     mealtime = data.get("mealtime")
     indiet = data.get("indiet")
 
-    if name and indiet:
-        new_meal = Meal(name=name, description=description, mealtime=mealtime, indiet=indiet)
-        user.meals.append(new_meal)
+    if name and indiet is not None:
+        new_meal = Meal(name=name, description=description, mealtime=mealtime, indiet=indiet, user_id=id_user)
+        db.session.add(new_meal)
         db.session.commit()
         return jsonify({"message": "Meal successfully registered"})
 
