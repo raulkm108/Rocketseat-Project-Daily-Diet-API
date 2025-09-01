@@ -101,17 +101,12 @@ def delete_user(id_user):
         return jsonify ({"message": "Operation not allowed"})
     
     if user:
+        deleted_username = user.username
         db.session.delete(user)
         db.session.commit()
-        return jsonify ({"message": f"User (id:{id_user}) was successfully deleted"})
+        return jsonify ({"message": f"User {deleted_username} (id:{id_user}) was successfully deleted"})
     
     return jsonify({"message": "User not found"}), 404
-
-
-
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)
