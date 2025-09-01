@@ -73,7 +73,7 @@ def read_user(id_user):
     if user:
         return {"username:": user.username}
     
-    return jsonify({"message": "Could not find user"}), 404
+    return jsonify({"message": "User not found"}), 404
 
 @app.route('/user/<int:id_user>', methods=['PUT'])
 @login_required
@@ -83,6 +83,11 @@ def update_user(id_user):
 
     if id_user != current_user.id and current_user.role == 'user':
         return jsonify({"message": "OPeration not allowed"}), 403
+    
+    if user and data.get("password"):
+        pass
+
+    return jsonify({"message": "User not found"}), 404
 
 
 
