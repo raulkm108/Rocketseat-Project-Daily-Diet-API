@@ -6,3 +6,14 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(20), nullable=False)
     role = db.Column(db.String(20), nullable=False, default='user')
+    meal = db.relationship('Meal', back_populates='meals')
+    
+
+class Meal(db.Model, UserMixin, User):
+    id = db.Columm(db.integer, primary_key=True)
+    user_id = db.relationship('User', back_populates='user')
+    name = db.Column(db.String(80), nullable=False)
+    description = db.Column(db.string(300), nullable=True)
+    mealtime = db.column(db.string(20), nullable=True)
+    indiet = db.column(db.Bool, nullable=False)
+
