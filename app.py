@@ -127,8 +127,8 @@ def create_meal(id_user):
     indiet = data.get("indiet")
 
     if name and indiet:
-        user.meals = Meal(name=name, description=description, mealtime=mealtime, indiet=indiet)
-        db.session.add(user.meals)
+        new_meal = Meal(name=name, description=description, mealtime=mealtime, indiet=indiet)
+        user.meals.append(new_meal)
         db.session.commit()
         return jsonify({"message": "Meal successfully registered"})
 
