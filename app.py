@@ -71,7 +71,9 @@ def read_user(id_user):
     user = User.query.get(id_user)
 
     if user:
-        return {"username:": user.username}
+        for meal in user.meals:
+            jsonify({"message": f"{meal}"})
+
     
     return jsonify({"message": "User not found"}), 404
 
@@ -141,7 +143,7 @@ def read_meals(id_user):
     user = User.query.get(id_user)
 
     if user:
-        return (user.meals)
+        return
 
     return jsonify({"message": "User not found"}), 404
 
