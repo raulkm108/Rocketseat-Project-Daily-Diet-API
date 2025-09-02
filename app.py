@@ -134,6 +134,17 @@ def create_meal(id_user):
 
     return jsonify({"message": "The meal need at least a name and if it's in the diet"}), 400
 
+@app.route('/readmeals/<int:id_user', methods=['GET'])
+@login_required
+
+def read_meals(id_user):
+    user = User.query.get(id_user)
+
+    if user:
+        pass
+
+    return jsonify({"message": "User not found"}), 404
+
 if __name__ == '__main__':
     app.run(debug=True)
 
