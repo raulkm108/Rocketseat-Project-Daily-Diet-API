@@ -4,9 +4,10 @@ from app import app
 
 with app.app_context():
 
-    id_user = 1
+    id_user = 2
 
     user = User.query.get(id_user)
+    
     for meal in user.meals:
         print(meal)
     
