@@ -19,3 +19,6 @@ class Meal(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+    def __repr__(self):
+        return f"<Meal name ='{self.name}', diet='{self.indiet}'>"
+
