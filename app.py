@@ -141,9 +141,18 @@ def create_meal(id_user):
 
 def read_meals(id_user):
     user = User.query.get(id_user)
+    meallist = ""
+
+    if not user.meals:
+        return jsonify({"message": "User has no meals"})
 
     if user:
-        return
+        for meal in user.meals:
+            meallist = meallist + str(meal)
+
+        return jsonify({"message": f"{meallist}"})
+            
+    
 
     return jsonify({"message": "User not found"}), 404
 
