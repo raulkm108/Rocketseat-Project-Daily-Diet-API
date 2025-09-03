@@ -141,20 +141,29 @@ def create_meal(id_user):
 
 def read_meals(id_user):
     user = User.query.get(id_user)
-    meallist = ""
+    meal_list = []
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
 
     if not user.meals:
         return jsonify({"message": "User has no meals"})
-
-    if user:
-        for meal in user.meals:
-            meallist = meallist + str(meal)
-
-        return jsonify({"message": f"{meallist}"})
-            
     
+    for meal in user.meals:
+            meal_data = {
+                "id": meal.id,
+                "name": meal.name,
+                "description": meal.description,
+                "indiet": meal.indiet
+            }
 
-    return jsonify({"message": "User not found"}), 404
+            meal_list.append(meal_data)
+    
+    return jsonify(meal_list)
+
+            
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
