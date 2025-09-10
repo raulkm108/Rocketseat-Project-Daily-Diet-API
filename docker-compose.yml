@@ -15,4 +15,4 @@ services:
       # Opens port 3306 on the container
       - '3307'
     volumes:
-      - /Users/NoteLenovo/Documents/GitHub/Rocketseat-Project-Daily-Diet-API/mysql/mysql:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
