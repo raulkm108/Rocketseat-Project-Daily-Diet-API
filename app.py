@@ -185,8 +185,29 @@ def read_meal(id_user, id_meal):
             return jsonify(meal_data)
         
     return jsonify({"message": "Meal not found"}), 404
-            
 
+@app.route('/user/<int:id_user>/<int:id_meal>', methods=['DELETE'])
+@login_required
+
+def delete_meal(id_user, id_meal):
+    user = User.query.get(id_user)
+
+    if id_user == current_user.id or current_user.role != 'admin':
+        return jsonify ({"message": "Operation not allowed"})
+    
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    if not user.meals:
+        return jsonify({"message": "User has no meals"}), 404
+    
+    for meal in user.meals:
+        if meal.id == id_meal:
+            deleted_meal = meal.name
+            deleted_meal_id = meal.id
+            db.session.delete(meal)
+            db.session.commit()
+            return jsonify ({"message": f"Meal {deleted_meal}(id: {deleted_meal_id}) was successfully deleted"})
 
 
 if __name__ == '__main__':
