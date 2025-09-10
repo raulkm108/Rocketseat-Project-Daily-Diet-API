@@ -8,6 +8,5 @@ with app.app_context():
 
     user = User.query.get(id_user)
     
-    for meal in user.meals:
-        print(meal)
+    print(f"{user.meals}")
     

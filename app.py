@@ -176,7 +176,13 @@ def read_meal(id_user, id_meal):
     
     for meal in user.meals:
         if id_meal == meal.id:
-            return jsonify(meal)
+            meal_data = { 
+                "id": meal.id,
+                "name": meal.name,
+                "description": meal.description,
+                "indiet": meal.indiet
+            }
+            return jsonify(meal_data)
         
     return jsonify({"message": "Meal not found"}), 404
             
