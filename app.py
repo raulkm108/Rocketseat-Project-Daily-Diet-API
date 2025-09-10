@@ -147,7 +147,7 @@ def read_meals(id_user):
         return jsonify({"message": "User not found"}), 404
 
     if not user.meals:
-        return jsonify({"message": "User has no meals"})
+        return jsonify({"message": "User has no meals"}), 404
     
     for meal in user.meals:
             meal_data = {
@@ -161,6 +161,24 @@ def read_meals(id_user):
     
     return jsonify(meal_list)
 
+@app.route('/readmeals/<int:id_user>/<int:id_meal>', methods=['GET'])
+@login_required
+
+def read_meal(id_user, id_meal):
+
+    user = User.query.get(id_user)
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    if not user.meals:
+        return jsonify({"message": "User has no meals"}), 404
+    
+    for meal in user.meals:
+        if id_meal == meal.id:
+            return jsonify(meal)
+        
+    return jsonify({"message": "Meal not found"}), 404
             
 
 
