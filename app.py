@@ -192,8 +192,8 @@ def read_meal(id_user, id_meal):
 def delete_meal(id_user, id_meal):
     user = User.query.get(id_user)
 
-    if id_user == current_user.id or current_user.role != 'admin':
-        return jsonify ({"message": "Operation not allowed"})
+    if id_user != current_user.id:
+        return jsonify ({"message": "You may only delete your won meals"})
     
     if not user:
         return jsonify({"message": "User not found"}), 404
