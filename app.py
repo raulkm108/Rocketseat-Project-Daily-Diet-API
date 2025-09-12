@@ -250,8 +250,6 @@ def edit_meal(id_user, id_meal):
     return jsonify({"message": "Meal needs to have both a name and if it is in the diet"})
     
 
-
-
 if __name__ == '__main__':
     app.run(debug=True)
 
