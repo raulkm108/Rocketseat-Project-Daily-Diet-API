@@ -204,8 +204,6 @@ def delete_meal(id_user, id_meal):
     if id_user != current_user.id:
         return jsonify ({"message": "You may only delete your own meals"})
     
-
-
     if not user.meals:
         return jsonify({"message": "User has no meals"}), 404
     
@@ -218,6 +216,23 @@ def delete_meal(id_user, id_meal):
             return jsonify ({"message": f"Meal {deleted_meal}(id: {deleted_meal_id}) was successfully deleted"})
         
     return jsonify({"message": "Meal not found"}), 404
+
+@app.route('/user/<int:id_user>/<int:id_meal>', methods=['PUT'])
+@login_required
+def edit_meal(id_user, id_meal):
+
+    user = User.query.get(id_user)
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    if id_user != current_user.id or current_user.role == 'user':
+        return jsonify ({"message": "You don't have permission to do that"}), 403
+    
+    if not user.meals:
+        return jsonify({"message": "User has no meals"}), 404
+    
+
 
 if __name__ == '__main__':
     app.run(debug=True)
