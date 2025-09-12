@@ -222,7 +222,6 @@ def delete_meal(id_user, id_meal):
 def edit_meal(id_user, id_meal):
 
     user = User.query.get(id_user)
-    meal = Meal.query.get(id_meal)
 
     if not user:
         return jsonify({"message": "User not found"}), 404
@@ -239,12 +238,12 @@ def edit_meal(id_user, id_meal):
         for meals in user.meals:
             if id_meal == meals.id:
                 old_name = meals.name
-                meal.name = data.get("name")
-                meal.description = data.get("description")
-                meal.mealtime = data.get("mealtime")
-                meal.indiet = data.get("indiet")
+                meals.name = data.get("name")
+                meals.description = data.get("description")
+                meals.mealtime = data.get("mealtime")
+                meals.indiet = data.get("indiet")
                 db.session.commit()
-                return jsonify ({"message": f"Meal {old_name} was successfully updated to {meal.name}"})
+                return jsonify ({"message": f"Meal {old_name} was successfully updated to {meals.name}"})
 
         return jsonify({"message": "Meal not found"}), 404
         
