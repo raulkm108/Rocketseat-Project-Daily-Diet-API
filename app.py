@@ -136,6 +136,19 @@ def create_meal(id_user):
 
     return jsonify({"message": "The meal need at least a name and if it's in the diet"}), 400
 
+def user_verification(id_user, verb):
+    user = User.query.get(id_user)
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+    
+    if id_user != current_user.id and current_user.role == "user":
+        return jsonify ({"message": f"You may only {verb} your own meals"}), 403
+
+    if not user.meals:
+        return jsonify({"message": "User has no meals"}), 404
+
+
 @app.route('/readmeals/<int:id_user>', methods=['GET'])
 @login_required
 
