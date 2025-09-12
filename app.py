@@ -147,23 +147,18 @@ def user_verification(id_user, verb):
 
     if not user.meals:
         return jsonify({"message": "User has no meals"}), 404
+    
+    return user
 
 
 @app.route('/readmeals/<int:id_user>', methods=['GET'])
 @login_required
 
 def read_meals(id_user):
-    user = User.query.get(id_user)
-    meal_list = []
 
-    if not user:
-        return jsonify({"message": "User not found"}), 404
+    user = user_verification(id_user, "see")
     
-    if id_user != current_user.id:
-        return jsonify ({"message": "You may only see your own meals"})
-
-    if not user.meals:
-        return jsonify({"message": "User has no meals"}), 404
+    meal_list = []
     
     for meal in user.meals:
             meal_data = {
