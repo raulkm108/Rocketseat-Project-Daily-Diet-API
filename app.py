@@ -145,6 +145,9 @@ def read_meals(id_user):
 
     if not user:
         return jsonify({"message": "User not found"}), 404
+    
+    if id_user != current_user.id:
+        return jsonify ({"message": "You may only see your own meals"})
 
     if not user.meals:
         return jsonify({"message": "User has no meals"}), 404
@@ -170,6 +173,9 @@ def read_meal(id_user, id_meal):
 
     if not user:
         return jsonify({"message": "User not found"}), 404
+    
+    if id_user != current_user.id:
+        return jsonify ({"message": "You may only see your own meals"})
 
     if not user.meals:
         return jsonify({"message": "User has no meals"}), 404
@@ -196,7 +202,7 @@ def delete_meal(id_user, id_meal):
         return jsonify({"message": "User not found"}), 404
 
     if id_user != current_user.id:
-        return jsonify ({"message": "You may only delete your won meals"})
+        return jsonify ({"message": "You may only delete your own meals"})
     
 
 
