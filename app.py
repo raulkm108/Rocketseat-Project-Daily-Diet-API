@@ -222,6 +222,7 @@ def delete_meal(id_user, id_meal):
 def edit_meal(id_user, id_meal):
 
     user = User.query.get(id_user)
+    meal = Meal.query.get(id_meal)
 
     if not user:
         return jsonify({"message": "User not found"}), 404
@@ -232,9 +233,28 @@ def edit_meal(id_user, id_meal):
     if not user.meals:
         return jsonify({"message": "User has no meals"}), 404
     
+    data = request.json
+
+    if data.get("name") and data.get("indiet") is not None:
+        for meals in user.meals:
+            if id_meal == meals.id:
+                old_name = meals.name
+                meal.name = data.get("name")
+                meal.description = data.get("description")
+                meal.mealtime = data.get("mealtime")
+                meal.indiet = data.get("indiet")
+                db.session.commit()
+                return jsonify ({"message": f"Meal {old_name} was successfully updated to {meal.name}"})
+
+        return jsonify({"message": "Meal not found"}), 404
+        
+    return jsonify({"message": "Meal needs to have both a name and if it is in the diet"})
+    
+
 
 
 if __name__ == '__main__':
     app.run(debug=True)
 
 
+ 
