@@ -227,7 +227,7 @@ def edit_meal(id_user, id_meal):
     if not user:
         return jsonify({"message": "User not found"}), 404
 
-    if id_user != current_user.id or current_user.role == 'user':
+    if id_user != current_user.id and current_user.role == 'user':
         return jsonify ({"message": "You don't have permission to do that"}), 403
     
     if not user.meals:
