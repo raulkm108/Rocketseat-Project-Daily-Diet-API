@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from database import db
 from models.user import User, Meal
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
-
+from functools import wraps
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -136,19 +136,23 @@ def create_meal(id_user):
 
     return jsonify({"message": "The meal need at least a name and if it's in the diet"}), 400
 
-def user_verification(id_user, verb):
-    user = User.query.get(id_user)
-
-    if not user:
-        return jsonify({"message": "User not found"}), 404
+def user_verification(f):
+    @wraps(f)
+    def wrapper(id_user, verb, *args, **kwargs):
     
-    if id_user != current_user.id and current_user.role == "user":
-        return jsonify ({"message": f"You may only {verb} your own meals"}), 403
+        user = User.query.get(id_user)
 
-    if not user.meals:
-        return jsonify({"message": "User has no meals"}), 404
+        if not user:
+            return jsonify({"message": "User not found"}), 404
     
-    return user
+        if id_user != current_user.id and current_user.role == "user":
+            return jsonify ({"message": f"You may only {verb} your own meals"}), 403
+
+        if not user.meals:
+            return jsonify({"message": "User has no meals"}), 404
+    
+        return f(user, *args, **kwargs)
+    return wrapper
 
 
 @app.route('/readmeals/<int:id_user>', methods=['GET'])
