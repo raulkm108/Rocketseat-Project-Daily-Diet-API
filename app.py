@@ -138,7 +138,7 @@ def create_meal(id_user):
 
 def user_verification(f):
     @wraps(f)
-    def wrapper(id_user, verb, *args, **kwargs):
+    def wrapper(id_user, *args, **kwargs):
     
         user = User.query.get(id_user)
 
@@ -146,7 +146,7 @@ def user_verification(f):
             return jsonify({"message": "User not found"}), 404
     
         if id_user != current_user.id and current_user.role == "user":
-            return jsonify ({"message": f"You may only {verb} your own meals"}), 403
+            return jsonify ({"message": "You don't have permission to change or see other user's data"}), 403
 
         if not user.meals:
             return jsonify({"message": "User has no meals"}), 404
@@ -157,10 +157,9 @@ def user_verification(f):
 
 @app.route('/readmeals/<int:id_user>', methods=['GET'])
 @login_required
+@user_verification
 
-def read_meals(id_user):
-
-    user = user_verification(id_user, "see")
+def read_meals(user):
     
     meal_list = []
     
