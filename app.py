@@ -177,20 +177,10 @@ def read_meals(user):
 
 @app.route('/readmeals/<int:id_user>/<int:id_meal>', methods=['GET'])
 @login_required
+@user_verification
 
-def read_meal(id_user, id_meal):
+def read_meal(user, id_meal):
 
-    user = User.query.get(id_user)
-
-    if not user:
-        return jsonify({"message": "User not found"}), 404
-    
-    if id_user != current_user.id:
-        return jsonify ({"message": "You may only see your own meals"})
-
-    if not user.meals:
-        return jsonify({"message": "User has no meals"}), 404
-    
     for meal in user.meals:
         if id_meal == meal.id:
             meal_data = { 
@@ -205,19 +195,10 @@ def read_meal(id_user, id_meal):
 
 @app.route('/user/<int:id_user>/<int:id_meal>', methods=['DELETE'])
 @login_required
+@user_verification
 
-def delete_meal(id_user, id_meal):
-    user = User.query.get(id_user)
-
-    if not user:
-        return jsonify({"message": "User not found"}), 404
-
-    if id_user != current_user.id:
-        return jsonify ({"message": "You may only delete your own meals"})
-    
-    if not user.meals:
-        return jsonify({"message": "User has no meals"}), 404
-    
+def delete_meal(user, id_meal):
+  
     for meal in user.meals:
         if meal.id == id_meal:
             deleted_meal = meal.name
@@ -230,19 +211,10 @@ def delete_meal(id_user, id_meal):
 
 @app.route('/user/<int:id_user>/<int:id_meal>', methods=['PUT'])
 @login_required
-def edit_meal(id_user, id_meal):
+@user_verification
 
-    user = User.query.get(id_user)
+def edit_meal(user, id_meal):
 
-    if not user:
-        return jsonify({"message": "User not found"}), 404
-
-    if id_user != current_user.id and current_user.role == 'user':
-        return jsonify ({"message": "You don't have permission to do that"}), 403
-    
-    if not user.meals:
-        return jsonify({"message": "User has no meals"}), 404
-    
     data = request.json
 
     if data.get("name") and data.get("indiet") is not None:
