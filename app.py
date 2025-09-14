@@ -68,7 +68,7 @@ def create_user():
 @app.route('/currentuser', methods=['GET'])
 @login_required
 def read_current_user():
-    return jsonify({"message": f"Current user is {current_user.username}"})
+    return jsonify({"message": f"Current user is {current_user.username} ({current_user.role})"})
 
 @app.route('/user/<int:id_user>', methods=['PUT'])
 @login_required
@@ -99,7 +99,7 @@ def delete_user(id_user):
         if user.meals:
             for meal in user.meals:
                 db.session.delete(meal)
-                
+
         deleted_username = user.username
         db.session.delete(user)
         db.session.commit()
