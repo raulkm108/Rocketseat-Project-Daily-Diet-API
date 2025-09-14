@@ -116,7 +116,7 @@ def create_meal(id_user):
     if not user:
         return jsonify({"message": "User not found"}), 404
 
-    if id_user != current_user.id:
+    if id_user != current_user.id and current_user.role == 'user':
         return jsonify({"message": "You can only create meals for your won user"}) , 403
     
     data = request.json
