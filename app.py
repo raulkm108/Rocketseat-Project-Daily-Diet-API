@@ -65,18 +65,6 @@ def create_user():
 
     return jsonify({"message": "Invalid credentials type"}), 400
 
-@app.route('/user/<int:id_user>', methods=['GET'])
-@login_required
-def read_user(id_user):
-    user = User.query.get(id_user)
-
-    if user:
-        for meal in user.meals:
-            jsonify({"message": f"{meal}"})
-
-    
-    return jsonify({"message": "User not found"}), 404
-
 @app.route('/user/<int:id_user>', methods=['PUT'])
 @login_required
 def update_user(id_user):
