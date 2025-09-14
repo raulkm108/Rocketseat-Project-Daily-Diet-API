@@ -157,7 +157,6 @@ def user_verification(f):
 @user_verification
 
 def read_meals(user):
-    
     meal_list = []
     
     for meal in user.meals:
@@ -167,7 +166,6 @@ def read_meals(user):
                 "description": meal.description,
                 "indiet": meal.indiet
             }
-
             meal_list.append(meal_data)
     
     return jsonify(meal_list)
