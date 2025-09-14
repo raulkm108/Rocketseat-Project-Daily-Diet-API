@@ -65,6 +65,11 @@ def create_user():
 
     return jsonify({"message": "Invalid credentials type"}), 400
 
+@app.route('/currentuser', methods=['GET'])
+@login_required
+def read_current_user():
+    return jsonify({"message": f"Current user is {current_user.name}"})
+
 @app.route('/user/<int:id_user>', methods=['PUT'])
 @login_required
 def update_user(id_user):
