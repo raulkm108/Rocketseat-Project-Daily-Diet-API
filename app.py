@@ -96,6 +96,10 @@ def delete_user(id_user):
         return jsonify ({"message": "Operation not allowed"})
     
     if user:
+        if user.meals:
+            for meal in user.meals:
+                db.session.delete(meal)
+                
         deleted_username = user.username
         db.session.delete(user)
         db.session.commit()
